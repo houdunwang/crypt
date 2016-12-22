@@ -16,31 +16,27 @@ composer require houdunwang/crypt
 ```
 > HDPHP 框架已经内置此组件，无需要安装
 
-####生成实例
-```
-$obj = new \houdunwang\crypt\Crypt();
-```
-
 ####配置密钥
+可以不执行密钥配置, 系统将使用默认密钥
 ```
-$obj->key('houdunwang.com');
+\houdunwang\crypt\Crypt::key('houdunwang.com');
 ```
 
 ####加密操作
 ```
-$encrypted = $obj->encrypt('后盾人  人人做后盾');
+$encrypted = \houdunwang\crypt\Crypt::encrypt('后盾人  人人做后盾');
 ```
 
 ```
 //自定义密钥,解密时使用相同密钥才可解
-$encrypted = $obj->encrypt('后盾网  人人做后盾','houdunwang.com');
+$encrypted = \houdunwang\crypt\Crypt::encrypt('后盾网  人人做后盾','houdunwang.com');
 ```
 
 ####解密操作
 ```
-$decrypted = $obj->decrypt($encryptedValue);
+$decrypted = \houdunwang\crypt\Crypt::decrypt($encryptedValue);
 ```
 ```
 //自定义密钥,使用加密时相同的密钥才可解
-$decrypted = $obj->decrypt($encryptedValue,'houdunwang.com');
+$decrypted = \houdunwang\crypt\Crypt::decrypt($encryptedValue,'houdunwang.com');
 ```

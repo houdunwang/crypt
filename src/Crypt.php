@@ -10,17 +10,23 @@
 namespace houdunwang\crypt;
 
 class Crypt {
-	private $iv;
-	private $secureKey = 'houdunwang.com';
+	private static $secureKey = '';
 
 	/**
 	 * 设置加密密钥
 	 *
-	 * @param $key
+	 * @param string $key
+	 *
+	 * @return string
 	 */
-	public function key( $key ) {
-		$this->secureKey = hash( 'sha256', $key, true );
-		$this->iv        = mcrypt_create_iv( 32 );
+	public static function key( $key = '' ) {
+		if ( ! empty( $key ) ) {
+			self::$secureKey = hash( 'sha256', $key, true );
+		} else if ( empty( self::$secureKey ) ) {
+			self::$secureKey = hash( 'sha256', '405305c793179059f8fd52436876750c587d19ccfbbe2a643743d021dbdcd79c', true );
+		}
+
+		return self::$secureKey;
 	}
 
 	/**
@@ -31,10 +37,10 @@ class Crypt {
 	 *
 	 * @return string
 	 */
-	public function encrypt( $input, $secureKey = '' ) {
-		$secureKey = $secureKey ? hash( 'sha256', $secureKey, true ) : $this->secureKey;
+	public static function encrypt( $input, $secureKey = '' ) {
+		$secureKey = $secureKey ? hash( 'sha256', $secureKey, true ) : self::key();
 
-		return base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, $secureKey, $input, MCRYPT_MODE_ECB, $this->iv ) );
+		return base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, $secureKey, $input, MCRYPT_MODE_ECB, mcrypt_create_iv( 32 ) ) );
 	}
 
 	/**
@@ -45,9 +51,9 @@ class Crypt {
 	 *
 	 * @return string
 	 */
-	public function decrypt( $input, $secureKey = '' ) {
-		$secureKey = $secureKey ? hash( 'sha256', $secureKey, true ) : $this->secureKey;
+	public static function decrypt( $input, $secureKey = '' ) {
+		$secureKey = $secureKey ? hash( 'sha256', $secureKey, true ) : self::key();
 
-		return trim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, $secureKey, base64_decode( $input ), MCRYPT_MODE_ECB, $this->iv ) );
+		return trim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, $secureKey, base64_decode( $input ), MCRYPT_MODE_ECB, mcrypt_create_iv( 32 ) ) );
 	}
 }
