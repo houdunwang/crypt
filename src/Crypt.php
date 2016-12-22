@@ -11,9 +11,14 @@ namespace houdunwang\crypt;
 
 class Crypt {
 	private $iv;
-	private $secureKey;
+	private $secureKey = 'houdunwang.com';
 
-	public function setSecureKey( $key ) {
+	/**
+	 * 设置加密密钥
+	 *
+	 * @param $key
+	 */
+	public function key( $key ) {
 		$this->secureKey = hash( 'sha256', $key, true );
 		$this->iv        = mcrypt_create_iv( 32 );
 	}
