@@ -16,6 +16,23 @@ composer require houdunwang/crypt
 ```
 > HDPHP 框架已经内置此组件，无需要安装
 
+####说明
+调用方式分两种:
+
+实例化对象调用时会产生多个实例
+```
+$obj1 = new \houdunwang\crypt\Crypt();
+$obj1->encrypt('3');
+$obj2 = new \houdunwang\crypt\Crypt();
+$obj3->encrypt('3');
+```
+
+通过类名以静态方法调用时,系统只生成一个对象实例
+```
+\houdunwang\crypt\Crypt::encrypt('a');
+\houdunwang\crypt\Crypt::encrypt('b');
+```
+
 ####配置密钥
 可以不执行密钥配置, 系统将使用默认密钥
 ```

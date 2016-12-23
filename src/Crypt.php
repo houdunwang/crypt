@@ -9,51 +9,25 @@
  * '-------------------------------------------------------------------*/
 namespace houdunwang\crypt;
 
-class Crypt {
-	private static $secureKey = '';
+use houdunwang\crypt\build\Base;
 
-	/**
-	 * 设置加密密钥
-	 *
-	 * @param string $key
-	 *
-	 * @return string
-	 */
-	public static function key( $key = '' ) {
-		if ( ! empty( $key ) ) {
-			self::$secureKey = hash( 'sha256', $key, true );
-		} else if ( empty( self::$secureKey ) ) {
-			self::$secureKey = hash( 'sha256', '405305c793179059f8fd52436876750c587d19ccfbbe2a643743d021dbdcd79c', true );
+class Crypt {
+	protected $link;
+
+	public function __call( $method, $params ) {
+		if ( ! $this->link ) {
+			$this->link = new Base();
 		}
 
-		return self::$secureKey;
+		return call_user_func_array( [ $this->link, $method ], $params );
 	}
 
-	/**
-	 * 加密
-	 *
-	 * @param string $input 加密字符
-	 * @param string $secureKey 加密key
-	 *
-	 * @return string
-	 */
-	public static function encrypt( $input, $secureKey = '' ) {
-		$secureKey = $secureKey ? hash( 'sha256', $secureKey, true ) : self::key();
+	public static function __callStatic( $name, $arguments ) {
+		static $link = null;
+		if ( is_null( $link ) ) {
+			$link = new Crypt();
+		}
 
-		return base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, $secureKey, $input, MCRYPT_MODE_ECB, mcrypt_create_iv( 32 ) ) );
-	}
-
-	/**
-	 * 解密
-	 *
-	 * @param string $input 解密字符
-	 * @param string $secureKey 加密key
-	 *
-	 * @return string
-	 */
-	public static function decrypt( $input, $secureKey = '' ) {
-		$secureKey = $secureKey ? hash( 'sha256', $secureKey, true ) : self::key();
-
-		return trim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, $secureKey, base64_decode( $input ), MCRYPT_MODE_ECB, mcrypt_create_iv( 32 ) ) );
+		return call_user_func_array( [ $link, $name ], $arguments );
 	}
 }
