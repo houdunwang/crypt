@@ -24,7 +24,9 @@
     "php": ">=5.4.0"
   },
   "autoload": {
-    "files": [],
+    "files": [
+      "src/helper.php"
+    ],
     "psr-4": {
       "houdunwang\\crypt\\": "src"
     }
