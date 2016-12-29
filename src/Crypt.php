@@ -14,20 +14,32 @@ use houdunwang\crypt\build\Base;
 class Crypt {
 	protected $link;
 
+	//获取实例
+	protected function driver() {var_dump(Config::get( 'crypt' ));
+		$this->link = new Base();
+		$this->link->config( Config::get( 'crypt' ) );
+
+		return $this;
+	}
+
 	public function __call( $method, $params ) {
 		if ( ! $this->link ) {
-			$this->link = new Base();
+			$this->driver();
 		}
 
 		return call_user_func_array( [ $this->link, $method ], $params );
 	}
 
-	public static function __callStatic( $name, $arguments ) {
+	public static function single() {
 		static $link = null;
 		if ( is_null( $link ) ) {
-			$link = new Crypt();
+			$link = new static();
 		}
 
-		return call_user_func_array( [ $link, $name ], $arguments );
+		return $link;
+	}
+
+	public static function __callStatic( $name, $arguments ) {
+		return call_user_func_array( [ static::single(), $name ], $arguments );
 	}
 }

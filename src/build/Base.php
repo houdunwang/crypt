@@ -10,7 +10,22 @@
 namespace houdunwang\crypt\build;
 
 class Base {
+	protected $config;
 	protected $secureKey = '405305c793179059f8fd52436876750c587d19ccfbbe2a643743d021dbdcd79c';
+
+	//设置配置项
+	public function config( $config, $value = null ) {
+		if ( is_array( $config ) ) {
+			$this->config = $config;
+		} else if ( is_null( $value ) ) {
+			return Arr::get( $this->config, $config );
+		} else {
+			$this->config = Arr::set( $this->config, $config, $value );
+		}
+		$this->key( $this->config['key'] );
+
+		return $this;
+	}
 
 	/**
 	 * 设置加密密钥

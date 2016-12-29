@@ -1,6 +1,10 @@
 <?php
 require 'vendor/autoload.php';
-$key = 'sdkdsklldsksdksdksdkldsklsdkllksd';
+$config=[
+	'key'=>"sdkdsklldsksdksdksdkldsklsdkllksd"
+];
+\houdunwang\config\Config::set('crypt',$config);
+
 //设置密钥
 //$a1 = new \houdunwang\crypt\Crypt();
 //$a2 = new \houdunwang\crypt\Crypt();

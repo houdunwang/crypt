@@ -1,4 +1,6 @@
-<?php
+<?php namespace houdunwang\crypt;
+use houdunwang\framework\build\Provider;
+
 /** .-------------------------------------------------------------------
  * |  Software: [HDCMS framework]
  * |      Site: www.hdcms.com
@@ -7,22 +9,19 @@
  * |    WeChat: aihoudun
  * | Copyright (c) 2012-2019, www.houdunwang.com. All Rights Reserved.
  * '-------------------------------------------------------------------*/
-namespace houdunwang\crypt;
 
-use hdphp\kernel\ServiceProvider;
-
-class CryptProvider extends ServiceProvider {
+class CryptProvider extends Provider {
 
 	//延迟加载
-	public $defer = true;
+	public $defer = false;
 
 	public function boot() {
-		\Crypt::setSecureKey( c( 'app.key' ) );
+
 	}
 
 	public function register() {
-		$this->app->single( 'Crypt', function ( $app ) {
-			return new Crypt( $app );
+		$this->app->single( 'Crypt', function () {
+			return Crypt::single();
 		} );
 	}
 }

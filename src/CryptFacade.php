@@ -9,9 +9,9 @@
  * '-------------------------------------------------------------------*/
 namespace houdunwang\crypt;
 
-use hdphp\kernel\ServiceFacade;
+use houdunwang\framework\build\Facade;
 
-class CryptFacade extends ServiceFacade {
+class CryptFacade extends Facade {
 	public static function getFacadeAccessor() {
 		return 'Crypt';
 	}
