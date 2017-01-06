@@ -7,7 +7,7 @@ if ( ! function_exists( 'encrypt' ) ) {
 	 * @return mixed
 	 */
 	function encrypt( $content ) {
-		return Crypt::encrypt( $content, 'hdphp.com' );
+		return Crypt::encrypt( $content, 'houdunwang.com' );
 	}
 }
 
@@ -19,6 +19,6 @@ if ( ! function_exists( 'decrypt' ) ) {
 	 * @return mixed
 	 */
 	function decrypt( $content ) {
-		return Crypt::decrypt( $content, 'hdphp.com' );
+		return Crypt::decrypt( $content, 'houdunwang.com' );
 	}
 }

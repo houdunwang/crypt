@@ -13,15 +13,14 @@ use houdunwang\framework\build\Provider;
 class CryptProvider extends Provider {
 
 	//延迟加载
-	public $defer = false;
+	public $defer = true;
 
 	public function boot() {
-
 	}
 
 	public function register() {
 		$this->app->single( 'Crypt', function () {
-			return Crypt::single();
+			return new Crypt();
 		} );
 	}
 }

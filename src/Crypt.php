@@ -9,13 +9,14 @@
  * '-------------------------------------------------------------------*/
 namespace houdunwang\crypt;
 
+use houdunwang\config\Config;
 use houdunwang\crypt\build\Base;
 
 class Crypt {
 	protected $link;
 
 	//获取实例
-	protected function driver() {var_dump(Config::get( 'crypt' ));
+	protected function driver() {
 		$this->link = new Base();
 		$this->link->config( Config::get( 'crypt' ) );
 
