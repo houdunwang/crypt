@@ -16,6 +16,7 @@ class CryptProvider extends Provider {
 	public $defer = true;
 
 	public function boot() {
+		Config::set( 'crypt.key', Config::get( 'app.key' ) );
 	}
 
 	public function register() {
