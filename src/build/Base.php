@@ -21,7 +21,7 @@ class Base {
 	 * @return string
 	 */
 	public function key( $key = '' ) {
-		$this->secureKey = $key ?: Config::get( 'crypt.key',$this->secureKey );
+		$this->secureKey = $key ?: Config::get( 'crypt.key', $this->secureKey );
 
 		return hash( 'sha256', $this->secureKey, true );
 	}
@@ -35,7 +35,11 @@ class Base {
 	 * @return string
 	 */
 	public function encrypt( $input, $secureKey = '' ) {
-		return base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, $this->key( $secureKey ), $input, MCRYPT_MODE_ECB, mcrypt_create_iv( 32 ) ) );
+		$encrypt = openssl_encrypt( $input, 'aes-256-cbc', base64_decode( $this->key($secureKey) ),
+			OPENSSL_RAW_DATA );
+
+		return base64_encode( $encrypt );
+//		return base64_encode( openssl_encrypt( MCRYPT_RIJNDAEL_256, $this->key( $secureKey ), $input, MCRYPT_MODE_ECB, mcrypt_create_iv( 32 ) ) );
 	}
 
 	/**
@@ -47,7 +51,11 @@ class Base {
 	 * @return string
 	 */
 	public function decrypt( $input, $secureKey = '' ) {
-
-		return trim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, $this->key( $secureKey ), base64_decode( $input ), MCRYPT_MODE_ECB, mcrypt_create_iv( 32 ) ) );
+		$encrypted = base64_decode( $input );
+		$decrypted = openssl_decrypt( $encrypted, 'aes-256-cbc', base64_decode( $this->key($secureKey) ),
+			OPENSSL_RAW_DATA );
+		return $decrypted;
+//		return trim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, $this->key( $secureKey ),
+// base64_decode( $input ), MCRYPT_MODE_ECB, mcrypt_create_iv( 32 ) ) );
 	}
 }
