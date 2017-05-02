@@ -16,52 +16,51 @@ composer require houdunwang/crypt
 ```
 > HDPHP 框架已经内置此组件，无需要安装
 
-####配置
+##配置
+
+####配置设置
+Crypt组件依赖Config配置组件，所以我们可以使用Config组件设置加密密钥。
 ```
-$config=[
-	'key'=>"sdkdsklldsksdksdksdkldsklsdkllksd"
-];
-\houdunwang\config\Config::set('crypt',$config);
+$key="sdkdsklldsksdksdksdkldsklsdkllksd";
+\houdunwang\config\Config::set('app.key',$key);
 ```
 
-####说明
-调用方式分两种:
-
-实例化对象调用时会产生多个实例
+####设置密钥
+也可以通过函数key设置加密密钥。
 ```
-$obj1 = new \houdunwang\crypt\Crypt();
-$obj1->encrypt('3');
-$obj2 = new \houdunwang\crypt\Crypt();
-$obj3->encrypt('3');
+$key="sdkdsklldsksdksdksdkldsklsdkllksd";
+\houdunwang\crypt\Crypt::key($key);
 ```
 
-通过类名以静态方法调用时,系统只生成一个对象实例
-```
-\houdunwang\crypt\Crypt::encrypt('a');
-\houdunwang\crypt\Crypt::encrypt('b');
-```
-
-####配置密钥
-不设置密钥时将使用默认密钥
-```
-\houdunwang\crypt\Crypt::key('houdunwang.com');
-```
-
-####加密操作
+##基本使用
+####加密
 ```
 $encrypted = \houdunwang\crypt\Crypt::encrypt('后盾人  人人做后盾');
 ```
-
-```
-//自定义密钥,解密时使用相同密钥才可解
-$encrypted = \houdunwang\crypt\Crypt::encrypt('后盾网  人人做后盾','houdunwang.com');
-```
-
-####解密操作
+####解密
 ```
 $decrypted = \houdunwang\crypt\Crypt::decrypt($encryptedValue);
 ```
+
+####自定义密钥
 ```
+//自定义密钥,解密时使用相同密钥才可解
+$encrypted = \houdunwang\crypt\Crypt::encrypt('后盾网  人人做后盾',md5('houdunwang.com'));
+
 //自定义密钥,使用加密时相同的密钥才可解
-$decrypted = \houdunwang\crypt\Crypt::decrypt($encryptedValue,'houdunwang.com');
+$decrypted = \houdunwang\crypt\Crypt::decrypt($encryptedValue,md5('houdunwang.com'));
+```
+
+##函数
+
+####加密
+encrypt函数加密不使用 [应用密钥](http://doc.hdphp.com/226446) 所以密钥更新后不影响解密，适合于对用户密码等持久数据进行加密。
+```
+encrypt('admin888');
+```
+
+####解密
+用于解密经由 encrypt 加密后的内容。
+```
+decrypt('解密内容');
 ```

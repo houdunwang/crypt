@@ -10,6 +10,8 @@
 
 namespace houdunwang\crypt\build;
 
+use houdunwang\config\Config;
+
 class Base
 {
     protected $config;
