@@ -3,3 +3,4 @@
 /vendor
 composer.lock
 /attachment
+/config
