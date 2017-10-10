@@ -7,10 +7,10 @@ if ( ! function_exists('encrypt')) {
      *
      * @return mixed
      */
-    function encrypt($content)
-    {
-        return \houdunwang\crypt\Crypt::encrypt($content);
-    }
+//    function encrypt($content)
+//    {
+//        return \houdunwang\crypt\Crypt::encrypt($content);
+//    }
 }
 
 if ( ! function_exists('decrypt')) {
@@ -21,8 +21,8 @@ if ( ! function_exists('decrypt')) {
      *
      * @return mixed
      */
-    function decrypt($content)
-    {
-        return \houdunwang\crypt\Crypt::decrypt($content);
-    }
+//    function decrypt($content)
+//    {
+//        return \houdunwang\crypt\Crypt::decrypt($content);
+//    }
 }
